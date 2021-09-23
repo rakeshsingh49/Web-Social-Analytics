@@ -1,0 +1,54 @@
+<!-- R Commander Markdown Template -->
+
+Replace with Main Title
+=======================
+
+### Your Name
+
+### `r as.character(Sys.Date())`
+
+```{r echo=FALSE}
+# include this code chunk as-is to set options
+knitr::opts_chunk$set(comment=NA, prompt=TRUE, out.width=750, fig.height=8, fig.width=8)
+library(Rcmdr)
+library(car)
+library(RcmdrMisc)
+```
+
+
+```{r echo=FALSE}
+# include this code chunk as-is to enable 3D graphs
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+```
+
+
+```{r}
+load("/Users/rakeshmac/Documents/GWU MSIST/Sem 2/Web & Social Analytics/Assignments/Assignment 3/ClickStream_R.xlsx")
+```
+
+```{r}
+ClickStream_R <- 
+  readXL("/Users/rakeshmac/Documents/GWU MSIST/Sem 2/Web & Social Analytics/Assignments/Assignment 3/ClickStream_R.xlsx",
+   rownames=FALSE, header=TRUE, na="", sheet="Sheet1", stringsAsFactors=TRUE)
+```
+
+```{r}
+GLM.3 <- glm(DIRECTP_D ~ CHILDREN_D + DURATION + HOUSEHOLD_SIZE, 
+  family=binomial(logit), data=ClickStream_R)
+summary(GLM.3)
+exp(coef(GLM.3))  # Exponentiated coefficients ("odds ratios")
+```
+
+```{r}
+GLM.4 <- glm(DIRECTP_D ~ REF_D + LOG_PRICE + TRANS_FREQ + DURATION + 
+  HOUSEHOLD_SIZE + CHILDREN_D + CONNECTIONSPEED_D, family=binomial(logit), 
+  data=ClickStream_R)
+summary(GLM.4)
+exp(coef(GLM.4))  # Exponentiated coefficients ("odds ratios")
+```
+
+```{r}
+exp(coef(GLM.4))
+```
+
